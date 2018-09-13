@@ -1,0 +1,49 @@
+html,
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding-left: 20px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    min-height: 100%;
+}
+
+.background-rectangle {
+    position: absolute;
+    top: 32%;
+    left: 40%;
+    height: 60%;
+    width: 57%;
+    background-color: lightblue;
+}
+
+#startButton {
+    display: block;
+    margin: auto;
+    width: 50%;
+    background-color: lightgrey;
+    border: 2px solid green;
+    font-size: 30px;
+}
+
+#startOverButton {
+    display: block;
+    margin: auto;
+    width: 50%;
+    background-color: lightgrey;
+    border: 2px solid green;
+    font-size: 30px;
+    margin-top: -15%;
+}
+
+.qanda {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    visibility: hidden;
+}
+
+.picture-centered {
+    display: block;
+    margin: auto;
+    width: 50%;
+}
