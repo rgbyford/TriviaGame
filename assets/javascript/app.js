@@ -141,8 +141,8 @@ $(document).ready(function () {
             $("#picture2").append('<img src="./assets/images/unhappy-Thomas.jpg">');
             $("#picture2").css("visibility", "visible");
             $("#picture2").show();
-            $("#answer2").text("Guess again!");
-            $("#answer2").css("visibility", "visible");
+            $("#answer0").text("Guess again!");
+            $("#answer0").css("visibility", "visible");
             if (timeLeft <= 0) {
                 $("#timeRemaining").text("Time gone!");
                 noAnswer++;
