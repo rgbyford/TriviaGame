@@ -58,25 +58,24 @@ $(document).ready(function () {
     questions[3] = new QuestionMake("How long does it take to go from Pittsburgh to New York by train?",
         "6 hours", "8 hours", "days", "9 hours", 3, 0);
 
+    // button routines
     var r = $('<input/>').attr({
         type: 'button',
         id: 'startButton',
         value: 'Start',
+        class: "buttons"
     });
-    $(".background-rectangle").append(r);
-    
+    $("#picture2").append(r);
+
     var s = $('<input/>').attr({
         type: 'button',
         id: 'startOverButton',
         value: 'Start Over',
+        style: 'margin-top: -25%',
+        class: 'buttons'
     });
-
     $(".background-rectangle").append(s);
     $("#startOverButton").hide();
-    
-    // not sure why we have to do this, but without the HTML image the
-    // "won a game" picture doesn't show up. But it's OK to remove it????
-    $("#htmlImg").remove();
 
     $(document).on("click", "#startButton", function (event) {
         startGame(false);
@@ -88,11 +87,16 @@ $(document).ready(function () {
         roundOver(idNum == questions[thisQuestion].rightAnswer ? WON : LOST);
     });
 
+    $(document).on("click", "#startOverButton", function (event) {
+        $("#startOverButton").hide();
+        startGame(false);
+    });
+
+    // time routines
     function showTime(time) {
         $("#timeRemaining").text("Time remaining: " + timeLeft + " seconds");
         $("#timeRemaining").css("visibility", "visible");
     }
-
 
     let timeLeft;
     let timerHandle;
@@ -105,7 +109,8 @@ $(document).ready(function () {
         }
     }
 
-    var firstGame = true;
+    // game routines
+    var firstGame = true; // only put up the start button for the first game
 
     function startGame(restart) {
         $("#picture").hide();
@@ -113,7 +118,7 @@ $(document).ready(function () {
         timeLeft = 20;
         timerHandle = setInterval(timerRoutine, 1000);
         showTime(timeLeft);
-        if (!restart) {
+        if (!restart) { // restart meaning a "follow on" game
             thisQuestion = 0;
             wrongGuesses = 0;
             noAnswer = 0;
@@ -128,36 +133,33 @@ $(document).ready(function () {
     }
 
     function roundOver(wonLost) {
-        let appendPoint;
-        let waitTime = 3000;
-        let continuation = true;
-        let waitRestart = false;
-
         clearInterval(timerHandle);
         questions[thisQuestion].hideAnswers();
         questions[thisQuestion].hideQuestion();
-        $("#timeRemaining").text(wonLost === WON ? "Yep!" : "Nope!");
         if (wonLost == LOST) {
+            $("#picture2").find("img").remove(); // any previous one
+            $("#picture2").append('<img src="./assets/images/unhappy-Thomas.jpg">');
+            $("#picture2").css("visibility", "visible");
+            $("#picture2").show();
             $("#answer2").text("Guess again!");
             $("#answer2").css("visibility", "visible");
             if (timeLeft <= 0) {
+                $("#timeRemaining").text("Time gone!");
                 noAnswer++;
             } else {
+                $("#timeRemaining").text("Nope!");
                 wrongGuesses++;
             }
         } else {
-            $("#picture").find("img").remove(); // any previous one
+            $("#timeRemaining").text("Yep!");
             $("#picture2").find("img").remove(); // any previous one
-            appendPoint = thisQuestion < 3 ? "#picture" : "#picture2";
-            $(appendPoint).append('<img alt="test" src="' +
+            $("#picture2").append('<img alt="test" src="' +
                 pictures[questions[thisQuestion].pictureNum] + '">');
-            $(appendPoint).css("visibility", "visible");
-            $(appendPoint).show();
-            thisQuestion++; // only here, because of Guess Again
-            //            wins++;
+            $("#picture2").css("visibility", "visible");
+            $("#picture2").show();
+            thisQuestion++; // only do it here, because of Guess Again
         }
-
-        if (thisQuestion === 4) {
+        if (thisQuestion === 4) {           // last one!
             setTimeout(gameOver, 3000, true);
         } else {
             setTimeout(startGame, 3000, true);
@@ -165,19 +167,15 @@ $(document).ready(function () {
         return;
     }
 
-    $(document).on("click", "#startOverButton", function (event) {
-        $("#startOverButton").hide();
-        startGame(false);
-    });
-
     function gameOver() {
         $("#timeRemaining").text("Game over!");
         $("#question").text("");
-        $("#answer1").text("Incorrect: " + wrongGuesses);
-        $("#answer2").text("Unanswered: " + noAnswer);
-        $("#answer0").css("visibility", "hidden");
+        $("#answer0").text("Incorrect: " + wrongGuesses);
+        $("#answer1").text("Unanswered: " + noAnswer);
+        $("#answer0").css("visibility", "visible");
         $("#answer1").css("visibility", "visible");
-        $("#answer2").css("visibility", "visible");
+        $("#answer2").css("visibility", "hidden");
         $("#startOverButton").show();
+        return;
     }
 });
